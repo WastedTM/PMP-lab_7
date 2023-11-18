@@ -1,20 +1,54 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react"
+import {NativeBaseProvider, Stack, StatusBar, Text, Input, Button, Toast} from "native-base"
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+function Form(props) {
+    return null;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+    const [username, setUsername] = React.useState('');
+    const [userPassword, setUserPassword] = React.useState('');
+
+    const handleLogin = () => {
+        const test = { username: 'User', password: 'Password' };
+
+        if (username !== test.username || userPassword !== test.password) {
+            Toast.show({
+                title: "You have entered an incorrect password or username",
+                duration: 3000,
+            })
+            return
+        }
+
+        Toast.show({
+            title: "You have successfully logged in",
+            duration: 3000,
+        })
+    }
+
+    return (
+        <NativeBaseProvider>
+            <Stack space={3} alignItems="center">
+                    <Input
+                        value={username}
+                        onChangeText={(text) => setUsername(text)}
+                        placeholder="Username"
+                        width={200}
+                        marginTop={20}
+                    />
+                    <Input
+                        secureTextEntry
+                        value={userPassword}
+                        onChangeText={(text) => setUserPassword(text)}
+                        placeholder='Password'
+                        width={200}
+                    />
+                    <Button full onPress={handleLogin} marginTop = {20}>
+                        <Text>Увійти</Text>
+                    </Button>
+            </Stack>
+
+            <StatusBar theme='auto'></StatusBar>
+        </NativeBaseProvider>
+    );
+}
